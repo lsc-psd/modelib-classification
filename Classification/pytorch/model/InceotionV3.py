@@ -1,10 +1,6 @@
-from collections import namedtuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-InceptionOutputs = namedtuple('InceptionOutputs', ['logits', 'aux_logits'])
-InceptionOutputs.__annotations__ = {'logits': torch.Tensor, 'aux_logits': torch.Tensor}
 
 
 class Inception3(nn.Module):
@@ -118,7 +114,7 @@ class Inception3(nn.Module):
         x = F.dropout(x, training=self.training)
         x = torch.flatten(x, 1)
         x = self.linear(x)
-        return InceptionOutputs(x, aux)
+        return x, aux
 
 
 class InceptionA(nn.Module):
