@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+Upstream YO
 
 class VGG16(nn.Module):
     def __init__(self,
