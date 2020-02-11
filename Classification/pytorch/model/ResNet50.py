@@ -6,13 +6,15 @@ __all__ = ['ResNet50']
 
 class ResNet50(nn.Module):
 
-    def __init__(self, num_classes=1000):
+    def __init__(self, num_classes=1000, init_weight=True):
         super(ResNet50, self).__init__()
 
         self.inplanes = 64
         self.dilation = 1
         self.base_width = 64
         self._build(num_classes)
+        if init_weight:
+            self._init_weights()
 
     def _build(self, num_classes):
         self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
@@ -22,39 +24,39 @@ class ResNet50(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
 
         r1_pl = 64
-        self.ResBlock1_1 = Bottleneck(self.inplanes, r1_pl,
-                                      Downsample(self.inplanes, r1_pl*4))
+        self.ResBlock1_1 = Resblock(self.inplanes, r1_pl,
+                                    Downsample(self.inplanes, r1_pl*4))
         self.inplanes = r1_pl * 4
-        self.ResBlock1_2 = Bottleneck(self.inplanes, r1_pl)
-        self.ResBlock1_3 = Bottleneck(self.inplanes, r1_pl)
+        self.ResBlock1_2 = Resblock(self.inplanes, r1_pl)
+        self.ResBlock1_3 = Resblock(self.inplanes, r1_pl)
 
         r2_pl = 128
-        self.ResBlock2_1 = Bottleneck(self.inplanes, r2_pl,
-                                      Downsample(self.inplanes, r2_pl*4, stride=2),
-                                      stride=2)
+        self.ResBlock2_1 = Resblock(self.inplanes, r2_pl,
+                                    Downsample(self.inplanes, r2_pl*4, stride=2),
+                                    stride=2)
         self.inplanes = r2_pl * 4
-        self.ResBlock2_2 = Bottleneck(self.inplanes, r2_pl)
-        self.ResBlock2_3 = Bottleneck(self.inplanes, r2_pl)
-        self.ResBlock2_4 = Bottleneck(self.inplanes, r2_pl)
+        self.ResBlock2_2 = Resblock(self.inplanes, r2_pl)
+        self.ResBlock2_3 = Resblock(self.inplanes, r2_pl)
+        self.ResBlock2_4 = Resblock(self.inplanes, r2_pl)
 
         r3_pl = 256
-        self.ResBlock3_1 = Bottleneck(self.inplanes, r3_pl,
-                                      Downsample(self.inplanes, r3_pl*4, stride=2),
-                                      stride=2)
+        self.ResBlock3_1 = Resblock(self.inplanes, r3_pl,
+                                    Downsample(self.inplanes, r3_pl*4, stride=2),
+                                    stride=2)
         self.inplanes = r3_pl * 4
-        self.ResBlock3_2 = Bottleneck(self.inplanes, r3_pl)
-        self.ResBlock3_3 = Bottleneck(self.inplanes, r3_pl)
-        self.ResBlock3_4 = Bottleneck(self.inplanes, r3_pl)
-        self.ResBlock3_5 = Bottleneck(self.inplanes, r3_pl)
-        self.ResBlock3_6 = Bottleneck(self.inplanes, r3_pl)
+        self.ResBlock3_2 = Resblock(self.inplanes, r3_pl)
+        self.ResBlock3_3 = Resblock(self.inplanes, r3_pl)
+        self.ResBlock3_4 = Resblock(self.inplanes, r3_pl)
+        self.ResBlock3_5 = Resblock(self.inplanes, r3_pl)
+        self.ResBlock3_6 = Resblock(self.inplanes, r3_pl)
 
         r4_pl = 512
-        self.ResBlock4_1 = Bottleneck(self.inplanes, r4_pl,
-                                      Downsample(self.inplanes, r4_pl*4, stride=2),
-                                      stride=2)
+        self.ResBlock4_1 = Resblock(self.inplanes, r4_pl,
+                                    Downsample(self.inplanes, r4_pl*4, stride=2),
+                                    stride=2)
         self.inplanes = r4_pl * 4
-        self.ResBlock4_2 = Bottleneck(self.inplanes, r4_pl)
-        self.ResBlock4_3 = Bottleneck(self.inplanes, r4_pl)
+        self.ResBlock4_2 = Resblock(self.inplanes, r4_pl)
+        self.ResBlock4_3 = Resblock(self.inplanes, r4_pl)
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * 4, num_classes)
@@ -129,7 +131,7 @@ class Conv2d(nn.Module):
         return x
 
 
-class Bottleneck(nn.Module):
+class Resblock(nn.Module):
     expansion = 4
 
     def __init__(self,
@@ -139,7 +141,7 @@ class Bottleneck(nn.Module):
                  base_width=64,
                  stride=1,
                  dilation=1):
-        super(Bottleneck, self).__init__()
+        super(Resblock, self).__init__()
         width = int(planes * (base_width / 64.))
 
         self.conv1 = Conv2d(inplanes, width, 1,
