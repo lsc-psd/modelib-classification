@@ -98,13 +98,13 @@ def make_bottleneck_model(input_shape, num_class, repetitions):
     ResNetModel = Model(inputs=inputs, outputs=outputs)
     return ResNetModel
 
-def resnet_1_8(input_shape, num_class):
+def resnet_18(input_shape, num_class):
     return make_base_model(input_shape, num_class, [2, 2, 2, 2])
 
 def resnet_34(input_shape, num_class):
     return make_base_model(input_shape, num_class, [3, 4, 6, 3])
 
-def resnet_5_0(input_shape, num_class):
+def resnet_50(input_shape, num_class):
     return make_bottleneck_model(input_shape, num_class, [3, 4, 6, 3])
 
 def resnet_101(input_shape, num_class):
