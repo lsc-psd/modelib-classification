@@ -1,5 +1,5 @@
 from keras.layers import AveragePooling2D, GlobalAveragePooling2D, Concatenate
-
+# can I do it?
 class DenseNetSimple:
     def __init__(self, input_shape, nb_classes,
                  growth_rate=32, compression_factor=0.5, blocks=[6,12,24,18]):
