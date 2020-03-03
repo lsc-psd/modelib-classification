@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+__all__ = ["Inception3"]
+
 
 class Inception3(nn.Module):
     def __init__(self,

@@ -1,6 +1,8 @@
 import torch.nn as nn
 import math
 
+__all__ = ['MobileNetV3']
+
 
 class MobileNetV3(nn.Module):
     def __init__(self, num_classes=1000, init_weight=True):
