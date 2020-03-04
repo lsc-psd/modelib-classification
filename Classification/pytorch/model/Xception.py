@@ -2,6 +2,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 
+"""
+Depse-width separable Conv Intro:
+https://medium.com/@zurister/depth-wise-convolution-and-depth-wise-separable-convolution-37346565d4ec
+"""
+
 __all__ = ['Xception']
 
 
