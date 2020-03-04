@@ -110,7 +110,7 @@ class Resblock(nn.Module):
         self.conv1 = Conv2d(in_channels, channels, 1, bias=False, stride=1)
         self.conv2 = Conv2d(channels, channels,  3, bias=False, stride=stride,
                             dilation=dilation, padding=dilation)
-        self.conv3 = Conv2d(in_channels, channels*4, 1,
+        self.conv3 = Conv2d(channels, channels*4, 1,
                             bias=False, stride=1, relu=False)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = None
