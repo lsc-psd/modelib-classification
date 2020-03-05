@@ -4,10 +4,10 @@ import torch.nn as nn
 __all__ = ['ResNet50']
 
 
-class ResNet50(nn.Module):
+class ResNeXt50(nn.Module):
 
     def __init__(self, num_classes=1000, init_weight=True):
-        super(ResNet50, self).__init__()
+        super(ResNeXt50, self).__init__()
 
         self.inplanes = 64
         self.dilation = 1
@@ -21,28 +21,28 @@ class ResNet50(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
 
         r1_channel = 64
-        self.ResBlock1_1 = Resblock.first(64, r1_channel)
-        self.ResBlock1_2 = Resblock.follow(r1_channel)
-        self.ResBlock1_3 = Resblock.follow(r1_channel)
+        self.ResBlock1_1 = Nextblock.first(64, r1_channel)
+        self.ResBlock1_2 = Nextblock.follow(r1_channel)
+        self.ResBlock1_3 = Nextblock.follow(r1_channel)
 
         r2_channel = 128
-        self.ResBlock2_1 = Resblock.first(r1_channel*4, r2_channel, stride=2)
-        self.ResBlock2_2 = Resblock.follow(r2_channel)
-        self.ResBlock2_3 = Resblock.follow(r2_channel)
-        self.ResBlock2_4 = Resblock.follow(r2_channel)
+        self.ResBlock2_1 = Nextblock.first(r1_channel*4, r2_channel, stride=2)
+        self.ResBlock2_2 = Nextblock.follow(r2_channel)
+        self.ResBlock2_3 = Nextblock.follow(r2_channel)
+        self.ResBlock2_4 = Nextblock.follow(r2_channel)
 
         r3_channel = 256
-        self.ResBlock3_1 = Resblock.first(r2_channel*4, r3_channel, stride=2)
-        self.ResBlock3_2 = Resblock.follow(r3_channel)
-        self.ResBlock3_3 = Resblock.follow(r3_channel)
-        self.ResBlock3_4 = Resblock.follow(r3_channel)
-        self.ResBlock3_5 = Resblock.follow(r3_channel)
-        self.ResBlock3_6 = Resblock.follow(r3_channel)
+        self.ResBlock3_1 = Nextblock.first(r2_channel*4, r3_channel, stride=2)
+        self.ResBlock3_2 = Nextblock.follow(r3_channel)
+        self.ResBlock3_3 = Nextblock.follow(r3_channel)
+        self.ResBlock3_4 = Nextblock.follow(r3_channel)
+        self.ResBlock3_5 = Nextblock.follow(r3_channel)
+        self.ResBlock3_6 = Nextblock.follow(r3_channel)
 
         r4_channel = 512
-        self.ResBlock4_1 = Resblock.first(r3_channel*4, r4_channel, stride=2)
-        self.ResBlock4_2 = Resblock.follow(r4_channel)
-        self.ResBlock4_3 = Resblock.follow(r4_channel)
+        self.ResBlock4_1 = Nextblock.first(r3_channel*4, r4_channel, stride=2)
+        self.ResBlock4_2 = Nextblock.follow(r4_channel)
+        self.ResBlock4_3 = Nextblock.follow(r4_channel)
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * 4, num_classes)
@@ -103,14 +103,13 @@ class Conv2d(nn.Module):
         return x
 
 
-class Resblock(nn.Module):
+class Nextblock(nn.Module):
     def __init__(self, in_channels, channels, stride, dilation):
-        super(Resblock, self).__init__()
-
-        self.conv1 = Conv2d(in_channels, channels, 1, bias=False, stride=1)
-        self.conv2 = Conv2d(channels, channels,  3, bias=False, stride=stride,
-                            dilation=dilation, padding=dilation)
-        self.conv3 = Conv2d(channels, channels*4, 1,
+        super(Nextblock, self).__init__()
+        self.conv1 = Conv2d(in_channels, channels*2, 1, bias=False, stride=1)
+        self.conv2 = Conv2d(channels*2, channels*2,  3, bias=False, stride=stride,
+                            dilation=dilation, padding=dilation, groups=32)
+        self.conv3 = Conv2d(channels*2, channels*4, 1,
                             bias=False, stride=1, relu=False)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = None
@@ -156,3 +155,5 @@ class Downsample(nn.Module):
     def forward(self, x):
         x = self.conv(x)
         return x
+
+

@@ -1,6 +1,8 @@
 import torch.nn as nn
 import math
 
+__all__ = ['MobileNetV3']
+
 
 class MobileNetV3(nn.Module):
     def __init__(self, num_classes=1000, init_weight=True):
@@ -12,24 +14,23 @@ class MobileNetV3(nn.Module):
             self._initialize_weights()
 
     def _build(self, num_classes):
-
         l = list()
         l.append(conv_3x3_bn(3, 16, 2))
         l.append(InvertedResidual(16, 3, 16, 16, 0, 0, 1))
         l.append(InvertedResidual(16, 3, 64, 24, 0, 0, 2))
-        l.append(InvertedResidual(16, 3, 72, 24, 0, 0, 1))
-        l.append(InvertedResidual(16, 5, 72, 40, 1, 0, 2))
-        l.append(InvertedResidual(16, 5, 120, 40, 1, 0, 1))
-        l.append(InvertedResidual(16, 5, 120, 40, 1, 0, 1))
-        l.append(InvertedResidual(16, 3, 240, 80, 0, 1, 2))
-        l.append(InvertedResidual(16, 3, 200, 80, 0, 1, 1))
-        l.append(InvertedResidual(16, 3, 184, 80, 0, 1, 1))
-        l.append(InvertedResidual(16, 3, 184, 80, 0, 1, 1))
-        l.append(InvertedResidual(16, 3, 480, 112, 1, 1, 1))
-        l.append(InvertedResidual(16, 3, 672, 112, 1, 1, 1))
-        l.append(InvertedResidual(16, 5, 672, 160, 1, 1, 1))
-        l.append(InvertedResidual(16, 5, 672, 160, 1, 1, 2))
-        l.append(InvertedResidual(16, 5, 960, 160, 1, 1, 1))
+        l.append(InvertedResidual(24, 3, 72, 24, 0, 0, 1))
+        l.append(InvertedResidual(24, 5, 72, 40, 1, 0, 2))
+        l.append(InvertedResidual(40, 5, 120, 40, 1, 0, 1))
+        l.append(InvertedResidual(40, 5, 120, 40, 1, 0, 1))
+        l.append(InvertedResidual(40, 3, 240, 80, 0, 1, 2))
+        l.append(InvertedResidual(80, 3, 200, 80, 0, 1, 1))
+        l.append(InvertedResidual(80, 3, 184, 80, 0, 1, 1))
+        l.append(InvertedResidual(80, 3, 184, 80, 0, 1, 1))
+        l.append(InvertedResidual(80, 3, 480, 112, 1, 1, 1))
+        l.append(InvertedResidual(112, 3, 672, 112, 1, 1, 1))
+        l.append(InvertedResidual(112, 5, 672, 160, 1, 1, 1))
+        l.append(InvertedResidual(160, 5, 672, 160, 1, 1, 2))
+        l.append(InvertedResidual(160, 5, 960, 160, 1, 1, 1))
         self.features = nn.Sequential(*l)
 
         self.conv = conv_1x1_bn(160, 960)
@@ -119,7 +120,6 @@ def conv_1x1_bn(inp, oup):
 
 
 class InvertedResidual(nn.Module):
-    # exp_size, c, use_se, use_hs, s
     def __init__(self, inp, kernel_size, hidden_dim, oup, use_se, use_hs, stride):
         super(InvertedResidual, self).__init__()
         assert stride in [1, 2]
