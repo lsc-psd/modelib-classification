@@ -79,7 +79,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", default='VGG16', help='which models')
     parser.add_argument("-f", default='train_imgs', help='data folder path')
-    parser.add_argument("-n", default=3, type=int, help='Numbers of extraction summaries')
     args = parser.parse_args()
 
     assert args.m in ['VGG16', 'DenseNet121', 'InceptionV3', 'MobileNetV3', 'ResNet50',
@@ -92,6 +91,7 @@ if __name__ == '__main__':
 
     System = create_model(Structure, args.f)
     model = System()
+
     # most basic trainer, uses good defaults
     trainer = Trainer(gpus=1)
     trainer.fit(model)
