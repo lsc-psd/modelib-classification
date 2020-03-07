@@ -86,11 +86,14 @@ if __name__ == '__main__':
                       'ResNeXt50', 'VGG16', 'Xception'], \
         f'Chosen model {args.m} do not exist, please check model folder for available models.'
 
+    # equals to from X import X
     Structure = importlib.import_module(f'models.{args.m}')
+    globals().update({'Structure': getattr(Structure, Structure.__dict__['__all__'])})
+
     System = create_model(Structure, args.f)
     model = System()
     # most basic trainer, uses good defaults
-    trainer = Trainer()
+    trainer = Trainer(gpus=1)
     trainer.fit(model)
 
 
