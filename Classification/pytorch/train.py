@@ -16,9 +16,10 @@ os.chdir('./')
 
 
 class ClassificationDataset(Dataset):
-    def __init__(self, folder_path, annotation_file=None):
+    def __init__(self, folder_path, imgsize=(256, 256), annotation_file=None):
 
         self.folder = folder_path
+        self.imgsize = imgsize
         self.d_list = dict(filenames=[], labels=[], labels_str=[])
         self._list_prep()
         # ##TrainVal split
@@ -47,7 +48,9 @@ class ClassificationDataset(Dataset):
     def pull_item(self, index):
         img_file = self.d_list['filenames'][index]
         label = self.d_list['labels'][index]
-        img = cv2.imread(img_file, 1)
+        img = cv2.imread(img_file, 1)/255
+        img = img.astype('float32')
+        img = cv2.resize(img, self.imgsize)
 
         return torch.from_numpy(img).permute(2, 0, 1), torch.tensor(label)
 
