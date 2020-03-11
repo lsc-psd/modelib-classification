@@ -55,7 +55,7 @@ class ClassificationDataset(Dataset):
         return torch.from_numpy(img).permute(2, 0, 1), torch.tensor(label)
 
 
-def create_model(Structure, folder_path):
+def create_model(Structure, folder_path, batch_size):
     class TrainModel(Structure, pl.LightningModule):
         def training_step(self, batch, batch_idx):
             x, y = batch
@@ -69,16 +69,16 @@ def create_model(Structure, folder_path):
             return optim.Adam(self.parameters(), lr=0.02)
 
         def train_dataloader(self):
-            # REQUIRED
             return DataLoader(ClassificationDataset(folder_path),
-                              batch_size=32)
+                              batch_size=batch_size)
     return TrainModel
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", default='VGG16', help='which models')
-    parser.add_argument("-f", default='train_imgs', help='data folder path')
+    parser.add_argument('-m', default='VGG16', type=str, help='which models')
+    parser.add_argument('-f', default='train_imgs', type=str, help='data folder path')
+    parser.add_argument('-b', default=32, type=int, help='batch size')
     args = parser.parse_args()
 
     assert args.m in ['VGG16', 'DenseNet121', 'InceptionV3', 'MobileNetV3', 'ResNet50',
@@ -89,7 +89,8 @@ if __name__ == '__main__':
     Structure = importlib.import_module(f'models.{args.m}')
     globals().update({'Structure': getattr(Structure, Structure.__dict__['__all__'])})
 
-    System = create_model(Structure, args.f)
+    # use def to create multiple inherited function
+    System = create_model(Structure, args.f, args.b)
     model = System()
 
     # most basic trainer, uses good defaults
