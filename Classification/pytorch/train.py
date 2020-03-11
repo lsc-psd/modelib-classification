@@ -3,8 +3,8 @@ import argparse
 import importlib
 from pytorch_lightning import Trainer
 
-from .utils import config_save
-from .models.model_builder import create_model
+from .bin.utils import config_save
+from .bin.model_builder import create_model
 
 os.chdir('./')
 

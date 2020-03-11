@@ -2,8 +2,8 @@ import argparse
 import importlib
 from pytorch_lightning import Trainer
 
-from .models.model_builder import create_model
-from .utils import config_load
+from .bin.model_builder import create_model
+from .bin.utils import config_load
 
 
 def main(args):
