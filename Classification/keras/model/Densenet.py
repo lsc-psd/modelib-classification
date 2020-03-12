@@ -7,7 +7,7 @@ from keras.models import Model
 
 class DenseNetSimple:
     def __init__(self, input_shape, nb_classes,
-                 growth_rate=32, compression_factor=0.5, blocks=[6,12,24,18]):
+                 growth_rate=32, compression_factor=0.5, blocks=[6,12,24,16]):
         '''
         :param growth_rate: The number of filters to increase in DenseBlock
         :param compression_factor: The rate that compress in Transition layers.
@@ -63,4 +63,9 @@ class DenseNetSimple:
         densenet_model = Model(inputs=inputs, outputs=output)
         return densenet_model
 
+
+def DenseNet121(input_shape, nb_classes):
+    return DenseNetSimple(input_shape=input_shape, nb_classes=nb_classes).model
+
 # model = DenseNetSimple(input_shape=(128,128,3), nb_classes=3).model
+

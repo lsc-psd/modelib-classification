@@ -33,6 +33,8 @@ if __name__ == '__main__':
     parser.add_argument('-max_epoch', default=500, type=int, help='max epoch count')
     args = parser.parse_args()
 
+
+    # I'll make conflicts!! 12.03.2020 kurogi
     assert args.m in ['VGG16', 'DenseNet121', 'InceptionV3', 'MobileNetV3', 'ResNet50',
                       'ResNeXt50', 'VGG16', 'Xception'], \
         f'Chosen model {args.m} do not exist, please check model folder for available models.'
