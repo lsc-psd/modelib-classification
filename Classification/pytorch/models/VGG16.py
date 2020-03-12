@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+__all__ = ["VGG16"]
+
 
 class VGG16(nn.Module):
     def __init__(self,
