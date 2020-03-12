@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     # equals to from X import X
     Structure = importlib.import_module(f'models.{args.m}')
-    globals().update({'Structure': getattr(Structure, Structure.__dict__['__all__'])})
+    globals().update({'Structure': getattr(Structure, Structure.__dict__['__all__'][0])})
 
     # use def to create multiple inherited function
     System = create_model(Structure, args.f, args.b)
