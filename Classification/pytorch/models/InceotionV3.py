@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+__all__ = ["Inception3"]
+
 
 class Inception3(nn.Module):
     def __init__(self,
@@ -25,18 +27,7 @@ class Inception3(nn.Module):
                input_channel,
                num_classes,
                batch_norm):
-        self._set_convs(input_channel, batch_norm)
-        self._set_inceptions_a()
-        self._set_grid_reduction_1()
-        self._set_inceptions_b()
-        if self.aux_logits:
-            self._set_aux(num_classes)
-        self._set_grid_reduction_2()
-        self._set_inceptions_c()
-        self._set_linear(num_classes)
-
-    def _set_convs(self, input_channels, batch_norm):
-        n = [Conv2d(input_channels, 32, 3, batch_norm, stride=1),
+        n = [Conv2d(input_channel, 32, 3, batch_norm, stride=1),
              Conv2d(32, 32, 3, batch_norm),
              Conv2d(32, 64, 3, batch_norm, padding=1),
              MaxPool(3, 2),
@@ -45,34 +36,28 @@ class Inception3(nn.Module):
              MaxPool(3, 2)]
         self.convs = nn.Sequential(*n)
 
-    def _set_inceptions_a(self):
         n = [InceptionA(192, pool_features=32),
              InceptionA(256, pool_features=64),
              InceptionA(288, pool_features=64)]
         self.inceptions_a = nn.Sequential(*n)
 
-    def _set_grid_reduction_1(self):
         self.grid_reduction_1 = GridReduction1(288)
 
-    def _set_inceptions_b(self):
         n = [InceptionB(768, channels_7x7=128),
              InceptionB(768, channels_7x7=160),
              InceptionB(768, channels_7x7=160),
              InceptionB(768, channels_7x7=192)]
         self.inceptions_b = nn.Sequential(*n)
 
-    def _set_aux(self, num_classes):
-        self.aux = InceptionAux(768, num_classes)
+        if self.aux_logits:
+            self.aux = InceptionAux(768, num_classes)
 
-    def _set_grid_reduction_2(self):
         self.grid_reduction_2 = GridReduction2(768)
 
-    def _set_inceptions_c(self):
         n = [InceptionC(1280),
              InceptionC(2048)]
         self.inceptions_c = nn.Sequential(*n)
 
-    def _set_linear(self, num_classes):
         self.linear = Linear(2048, num_classes)
 
     def _initialize_weights(self):
