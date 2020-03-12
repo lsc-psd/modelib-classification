@@ -63,5 +63,9 @@ class DenseNetSimple:
         densenet_model = Model(inputs=inputs, outputs=output)
         return densenet_model
 
+
 def DenseNet121(input_shape, nb_classes):
     return DenseNetSimple(input_shape=input_shape, nb_classes=nb_classes).model
+
+# model = DenseNetSimple(input_shape=(128,128,3), nb_classes=3).model
+
