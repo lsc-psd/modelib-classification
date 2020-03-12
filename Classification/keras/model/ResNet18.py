@@ -20,7 +20,6 @@ def res_blocks(x,filter,stride):
     short_cut = shortcut(x, conv)
     conv = Activation("relu")(short_cut)
     return conv
-
 def make_model(input_shape, num_classes):
     inputs = Input(input_shape)
     conv1 = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same", kernel_initializer='he_normal')(inputs)
