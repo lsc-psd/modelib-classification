@@ -36,4 +36,5 @@ if __name__ == '__main__':
     assert args.m in ['VGG16', 'DenseNet121', 'InceptionV3', 'MobileNetV3', 'ResNet50',
                       'ResNeXt50', 'VGG16', 'Xception'], \
         f'Chosen model {args.m} do not exist, please check model folder for available models.'
+
     main(args)

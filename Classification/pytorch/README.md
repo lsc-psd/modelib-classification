@@ -3,7 +3,7 @@
 
 # Handy Pytoch - **Classification**     
 
-[![Paper](http://img.shields.io/badge/paper-arxiv.1001.2234-B31B1B.svg)](https://www.nature.com/articles/nature14539)
+![Test](https://img.shields.io/badge/LSC-PSD-red?style=flat-square&logo=python)
   
 </div>
 
