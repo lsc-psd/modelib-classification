@@ -1,5 +1,5 @@
 from keras import backend as K
-from keras.layers import Conv2D,Add,Input,BatchNormalization,Activation,MaxPooling2D,GlobalAveragePooling2D,Dense,Dropout
+from keras.layers import Conv2D,Add,Input,BatchNormalization,Activation,MaxPooling2D,GlobalAveragePooling2D,Dense
 from keras.models import Model
 
 def shortcut(x, residual):
@@ -12,7 +12,7 @@ def shortcut(x, residual):
     return Add()([shortcut, residual])
 
 def res_blocks(x,filter,stride):
-    conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(stride,stride), padding="same", kernel_initializer='he_normal')(x)
+    conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(stride, stride), padding="same", kernel_initializer='he_normal')(x)
     conv = BatchNormalization()(conv)
     conv = Activation("relu")(conv)
     conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(1, 1), padding="same", kernel_initializer='he_normal')(conv)

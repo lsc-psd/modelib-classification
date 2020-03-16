@@ -21,7 +21,7 @@ def res_blocks(x,filter,stride):
     conv = Activation("relu")(short_cut)
     return conv
 
-class ResNet50:
+class ResNet34:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
