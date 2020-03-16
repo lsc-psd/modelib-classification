@@ -8,7 +8,9 @@ def shortcut(x, residual):
     if x_shape == residual_shape:
         shortcut = x
     else:
-        shortcut = Conv2D(filters=residual_shape[3], kernel_size=(1, 1), strides=(2, 2))(x)
+        stride_w = int(round(x_shape[1] / residual_shape[1]))
+        stride_h = int(round(x_shape[2] / residual_shape[2]))
+        shortcut = Conv2D(filters=residual_shape[3], kernel_size=(1, 1), strides=(stride_w, stride_h))(x)
     return Add()([shortcut, residual])
 
 def res_blocks(x, filter, stride):
@@ -18,7 +20,7 @@ def res_blocks(x, filter, stride):
     conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(1, 1), padding="same", kernel_initializer='he_normal')(conv)
     conv = BatchNormalization()(conv)
     conv = Activation("relu")(conv)
-    conv = Conv2D(filters=filter*4, kernel_size=(1, 1), strides=(stride, stride), padding="same", kernel_initializer='he_normal')(conv)
+    conv = Conv2D(filters=filter*4, kernel_size=(1, 1), strides=(1, 1), padding="same", kernel_initializer='he_normal')(conv)
     conv = BatchNormalization()(conv)
     short_cut = shortcut(x, conv)
     conv = Activation("relu")(short_cut)
