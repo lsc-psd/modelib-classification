@@ -26,6 +26,7 @@ highly extensible, and easy to integrate into your own projects.
  * Train/Test models with your in-house data
 
 **_Upcoming features_: In the next few days, you will be able to:**
+ * Local installation / pip installation
  * Evaluate models within training
  * Load pre-trained weights for models 
  * Finetune models on your own dataset
