@@ -1,4 +1,6 @@
 # ModeLIB - SoTA Classification models in Keras / Pytorch
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![build](https://img.shields.io/badge/build-unstable-orange.svg)
 
 ### Overview
 This repository contains reimplementation of state-of-the-art **Image Classification** models:
