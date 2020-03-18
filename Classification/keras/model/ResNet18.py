@@ -11,7 +11,7 @@ def shortcut(x, residual):
         shortcut = Conv2D(filters=residual_shape[3], kernel_size=(1, 1), strides=(2, 2))(x)
     return Add()([shortcut, residual])
 
-def res_blocks(x,filter,stride):
+def base_blocks(x,filter,stride):
     conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(stride, stride), padding="same", kernel_initializer='he_normal')(x)
     conv = BatchNormalization()(conv)
     conv = Activation("relu")(conv)
@@ -25,22 +25,22 @@ class ResNet18:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model(blocks)
+        self.model = self.build(blocks)
 
-    def make_model(self):
+    def build(self):
         inputs = Input(self.input_shape)
         x = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same", kernel_initializer='he_normal')(inputs)
         x = BatchNormalization()(x)
         x = Activation('relu')(x)
         x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding="same")(x)
-        x = res_blocks(x, 64, 1)
-        x = res_blocks(x, 64, 1)
-        x = res_blocks(x, 128, 2)
-        x = res_blocks(x, 128, 1)
-        x = res_blocks(x, 256, 2)
-        x = res_blocks(x, 256, 1)
-        x = res_blocks(x, 512, 2)
-        x = res_blocks(x, 512, 1)
+        x = base_blocks(x, 64, 1)
+        x = base_blocks(x, 64, 1)
+        x = base_blocks(x, 128, 2)
+        x = base_blocks(x, 128, 1)
+        x = base_blocks(x, 256, 2)
+        x = base_blocks(x, 256, 1)
+        x = base_blocks(x, 512, 2)
+        x = base_blocks(x, 512, 1)
         x = GlobalAveragePooling2D()(x)
         outputs = Dense(units=self.nb_classes, activation='softmax')(x)
         ResNetModel = Model(inputs=inputs, outputs=outputs)
