@@ -1,5 +1,5 @@
 from keras import backend as K
-from keras.layers import Conv2D, Add, Input, BatchNormalization, Activation, MaxPooling2D, GlobalAveragePooling2D, Dense
+from keras.layers import Conv2D, Add, Input, BatchNormalization, Activation, MaxPooling2D, GlobalAveragePooling2D,SeparableConv2D, Dense
 from keras.models import Model
 
 def shortcut(x, residual):
@@ -13,74 +13,59 @@ def shortcut(x, residual):
         shortcut = Conv2D(filters=residual_shape[3], kernel_size=(1, 1), strides=(stride_w, stride_h))(x)
     return Add()([shortcut, residual])
 
-def res_blocks(x, filter, stride):
-    conv = Conv2D(filters=filter, kernel_size=(1, 1), strides=(stride, stride), padding="same", kernel_initializer='he_normal')(x)
-    conv = BatchNormalization()(conv)
-    conv = Activation("relu")(conv)
-    conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(1, 1), padding="same", kernel_initializer='he_normal')(conv)
-    conv = BatchNormalization()(conv)
-    conv = Activation("relu")(conv)
-    conv = Conv2D(filters=filter*4, kernel_size=(1, 1), strides=(1,1), padding="same", kernel_initializer='he_normal')(conv)
-    conv = BatchNormalization()(conv)
-    return conv
+def block(x,in_filter,filter,out_filter,stride=1,cardinality=32):
+    res_x = Conv2D(filters=filter, kernel_size=(1, 1), strides=(stride, stride), padding="same", kernel_initializer='he_normal')(x)
+    res_x = BatchNormalization()(res_x)
+    res_x = Activation("relu")(res_x)
+    multiplier = filter // cardinality
+    res_x = SeparableConv2D(filters=filter, kernel_size=(3, 3), strides=(1, 1), padding="same",depth_multiplier=multiplier,  kernel_initializer='he_normal')(res_x)
+    res_x = BatchNormalization()(res_x)
+    res_x = Activation("relu")(res_x)
+    res_x = Conv2D(filters=out_filter, kernel_size=(1, 1), strides=(1,1), padding="same", kernel_initializer='he_normal')(res_x)
+    res_x = BatchNormalization()(res_x)
+    if in_filter != out_filter:
+        x = Conv2D(out_filter, [1, 1], strides=1, padding="same")(x)
+        x = BatchNormalization()(x)
+        x = Activation("relu")(x)
+    if stride == 2:
+        x = MaxPooling2D([2, 2], strides=2, padding="same")(x)
+    x = Add()([res_x,x])
+    x = Activation("relu")(x)
+    return x
 
 
 class ResNeXt50:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model(blocks)
+        self.build = self.build(blocks)
 
-    def make_model(self):
+    def build(self):
         inputs = Input(self.input_shape)
         x = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same", kernel_initializer='he_normal')(inputs)
         x = BatchNormalization()(x)
         x = Activation('relu')(x)
         x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding="same")(x)
 
-        for j in range(3):
-            x1_array = [0 for k in range(32)]
-            for i in range(32):
-                x1_array[i] = res_blocks(x, 64, 1)
-            x1_all = Add()(x1_array)
-            shortcut1 = shortcut(x, x1_all)
-            x = Activation("relu")(shortcut1)
+        x = block(x, 64, 64, 256)
+        x = block(x, 256, 64, 256)
+        x = block(x, 256, 64, 256)
 
-        for j in range(4):
-            x2_array = [0 for k in range(32)]
-            if j == 0:
-                st = 2
-            else:
-                st = 1
-            for i in range(32):
-                x2_array[i] = res_blocks(x, 128, st)
-            x2_all = Add()(x2_array)
-            shortcut2 = shortcut(x, x2_all)
-            x = Activation("relu")(shortcut2)
+        x = block(x, 256, 128, 512, stride=2)
+        x = block(x, 512, 128, 512)
+        x = block(x, 512, 128, 512)
+        x = block(x, 512, 128, 512)
 
-        for j in range(6):
-            x3_array = [0 for k in range(32)]
-            if j == 0:
-                st = 2
-            else:
-                st = 1
-            for i in range(32):
-                x3_array[i] = res_blocks(x, 256, st)
-            x3_all = Add()(x3_array)
-            shortcut3 = shortcut(x, x3_all)
-            x = Activation("relu")(shortcut3)
+        x = block(x, 512, 256, 1024, stride=2)
+        x = block(x, 1024, 256, 1024)
+        x = block(x, 1024, 256, 1024)
+        x = block(x, 1024, 256, 1024)
+        x = block(x, 1024, 256, 1024)
+        x = block(x, 1024, 256, 1024)
 
-        for j in range(3):
-            x4_array = [0 for k in range(32)]
-            if j == 0:
-                st = 2
-            else:
-                st = 1
-            for i in range(32):
-                x4_array[i] = res_blocks(x, 512, st)
-            x4_all = Add()(x4_array)
-            shortcut4 = shortcut(x, x4_all)
-            x = Activation("relu")(shortcut4)
+        x = block(x, 1024, 512, 2018, stride=2)
+        x = block(x, 1024, 512, 2018)
+        x = block(x, 1024, 512, 2018)
 
         x = GlobalAveragePooling2D()(x)
         outputs = Dense(units=self.nb_classes, activation='softmax')(x)
