@@ -1,5 +1,5 @@
 # ModeLIB - SoTA Classification models in Keras / Pytorch
-[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-black.svg)](http://www.wtfpl.net/about/)
+[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-lightgrey.svg)](http://www.wtfpl.net/about/)
 ![build](https://img.shields.io/badge/build-unstable-orange.svg)
 
 ## Overview
