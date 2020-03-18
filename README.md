@@ -20,12 +20,12 @@ This repository contains reimplementation of state-of-the-art **Image Classifica
 The goal of this implementation is to be simple, flat structured,  
 highly extensible, and easy to integrate into your own projects.
 
-At current moment, you can easily:  
+**At current moment, you can easily:**  
  * Build any of the above models in nn.Module class 
  * Use models for classification or feature extraction 
  * Train/Test models with your in-house data
 
-_Upcoming features_: In the next few days, you will be able to:
+**_Upcoming features_: In the next few days, you will be able to:**
  * Evaluate models within training
  * Load pre-trained weights for models 
  * Finetune models on your own dataset
