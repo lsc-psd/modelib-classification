@@ -110,5 +110,5 @@ If you want us to add other models, feel free to create an issue, or submit a pu
 If you find a bug or having any question, create an issue and we'll solve it ASAP.
 
 ## LISCENCE
-JUST DO WHAT THE FXCK YOU WANT TO PUBLIC, CHEERS!
+WTFPL LICENSE, just do what the fuck you want to public, cheers.
  
