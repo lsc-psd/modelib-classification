@@ -25,7 +25,7 @@ class ResNet18:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.build(blocks)
+        self.build = self.build(blocks)
 
     def build(self):
         inputs = Input(self.input_shape)
