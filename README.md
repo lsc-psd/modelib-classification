@@ -30,6 +30,7 @@ highly extensible, and easy to integrate into your own projects.
  * Load pre-trained weights for models 
  * Finetune models on your own dataset
 
+---
 ### Table of contents
 1. [About Models](#about-models)
     * [Model Details](#model-details)
@@ -41,7 +42,7 @@ highly extensible, and easy to integrate into your own projects.
 5. [Contributing](#contributing)
 6. [LICENSE](#liscence)
  
-
+---
 ## About Models
 
 We collect models that bring huge impacts to Image Classification task,
