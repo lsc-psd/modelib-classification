@@ -53,15 +53,15 @@ Although most of these models have several types where their layers
 ### Model Details
 Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
-|    *Name*         |*# Params*|*Top-1 Acc.*|*Pretrained*|
-|:-----------------:|:--------:|:----------:|:-----------:|
-| VGG16|?|?|x|
-| InceptionV3|?|?|x|
-| ResNet50 |?|?|x|
-|DenseNet121|?|?|x|
-|Xception|?|?|x|
-|ResNeXt50|?|?|x|
-|MobileNetV3|?|?|x|
+|*Name*| `keras`| `torch` |*# Params*|*Top-1 Acc.*|*Pretrained*|
+|:---:|:--------:|:---:|:---:|:----------:|:-----------:|
+| VGG16|v|v|?|?|x|
+| InceptionV3|v|v|?|?|x|
+| ResNet50 |v|v|?|?|x|
+|DenseNet121|v|v|?|?|x|
+|Xception|x|v|?|?|x|
+|ResNeXt50|x|v|?|?|x|
+|MobileNetV3|x|v|?|?|x|
 
 ## Requesties:
 - pytorch v1.4
