@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![build](https://img.shields.io/badge/build-unstable-orange.svg)
 
-### Overview
+## Overview
 This repository contains reimplementation of state-of-the-art **Image Classification** models:
 
 | **Models**| **Published year**| **Paper**  |
@@ -42,7 +42,7 @@ _Upcoming features_: In the next few days, you will be able to:
 6. [LICENSE](#liscence)
  
 
-### About Models
+## About Models
 
 We collect models that bring huge impacts to Image Classification task,
  and re-implement it with flat structured code. 
@@ -63,16 +63,16 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 |ResNeXt50|?|?|x|
 |MobileNetV3|?|?|x|
 
-### Requesties:
+## Requesties:
 - pytorch v1.4
 
 - [pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning) [[doc]](https://pytorch-lightning.readthedocs.io/en/latest/)
 - opencv
 
 
-### Installation
+## Installation
 
-Will updated soon
+Will update soon
 
 [comment]: <> (Install via pip:)
 [comment]: <> (```bash)
@@ -86,27 +86,27 @@ Will updated soon
 [comment]: <> (``` )
 
 
-### Usage
+## Usage
 
 [comment]: <> (#### Loading pretrained models)
-#### Example: Train from bash
+### Example: Train from bash
 
 ```bash
 python train.py -m VGG16 -f PATH_TO_TRAINDATA
 python test.py -config PATH_TO_CONFIG -ckpt PATH_TO_CHECKPOINT -tag_csv PATH_TO_TAGCSV -f PATH_TO_TESTDATA
 ```
 
-#### Example: Customize in python
+### Example: Customize in python
 
 Load a model in python:  
 ```python
 from .models.SOME_MODEL import SOME_MODEL
 ```
 
-### Contributing
+## Contributing
 If you want us to add other models, feel free to create an issue, or submit a pull request.
 If you find a bug or having any question, create an issue and we'll solve it ASAP.
 
-### LISCENCE
+## LISCENCE
 This project is under Apache 2.0 license as showed in LICENSE file.
  
