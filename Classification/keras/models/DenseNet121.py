@@ -1,11 +1,11 @@
 from keras.layers import AveragePooling2D, GlobalAveragePooling2D, Concatenate
-from keras.layers import Input, Conv2D, BatchNormalization, Dense
+from keras.layers import Input, Conv2D, BatchNormalization, Dense, Dropout
 from keras.models import Model
 
 # 20200311 sample message @kurogi
 # can I do it?
 
-class DenseNetSimple:
+class DenseNetBase:
     def __init__(self, input_shape, nb_classes,
                  growth_rate=32, compression_factor=0.5, blocks=[6,12,24,16]):
         '''
@@ -63,9 +63,5 @@ class DenseNetSimple:
         densenet_model = Model(inputs=inputs, outputs=output)
         return densenet_model
 
-
-def DenseNet121(input_shape, nb_classes):
-    return DenseNetSimple(input_shape=input_shape, nb_classes=nb_classes).model
-
-# model = DenseNetSimple(input_shape=(128,128,3), nb_classes=3).model
-
+def build(input_shape, nb_classes):
+    return DenseNetBase(input_shape=input_shape, nb_classes=nb_classes).model

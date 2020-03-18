@@ -5,7 +5,7 @@ class VGG16:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model(blocks)
+        self.model = self.make_model()
 
     # VGG16の記述
     def make_model(self):
@@ -37,5 +37,8 @@ class VGG16:
         VGGmodel = Model(inputs=inputs, outputs=outputs)
         return VGGmodel
 
+def build(input_shape, nb_classes):
+    model = VGG16(input_shape, nb_classes).model
+    return model
 
 # model = DenseNetSimple(input_shape=(128,128,3), nb_classes=3).model
