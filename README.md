@@ -1,5 +1,5 @@
 # ModeLIB - SoTA Classification models in Keras / Pytorch
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-black.svg)](http://www.wtfpl.net/about/)
 ![build](https://img.shields.io/badge/build-unstable-orange.svg)
 
 ## Overview
@@ -110,5 +110,5 @@ If you want us to add other models, feel free to create an issue, or submit a pu
 If you find a bug or having any question, create an issue and we'll solve it ASAP.
 
 ## LISCENCE
-This project is under Apache 2.0 license as showed in LICENSE file.
+JUST DO WHAT THE FXCK YOU WANT TO PUBLIC, CHEERS!
  
