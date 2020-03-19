@@ -5,7 +5,7 @@ class VGG19:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model(blocks)
+        self.model = self.make_model()
 
     def make_model(self):
         inputs = Input(self.input_shape)
@@ -38,3 +38,8 @@ class VGG19:
         outputs = Dense(self.nb_classes, activation='softmax')(x)
         VGGmodel = Model(inputs=inputs, outputs=outputs)
         return VGGmodel
+
+def build(input_shape,nb_classes):
+    return VGG19(input_shape, nb_classes).model
+
+# model = VGG19(input_shape=(128,128,3), nb_classes=10).model

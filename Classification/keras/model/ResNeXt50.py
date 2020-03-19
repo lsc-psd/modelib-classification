@@ -38,9 +38,9 @@ class ResNeXt50:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.build = self.build(blocks)
+        self.model = self.make_model()
 
-    def build(self):
+    def make_model(self):
         inputs = Input(self.input_shape)
         x = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same", kernel_initializer='he_normal')(inputs)
         x = BatchNormalization()(x)
@@ -71,3 +71,8 @@ class ResNeXt50:
         outputs = Dense(units=self.nb_classes, activation='softmax')(x)
         ResNeXtModel = Model(inputs=inputs, outputs=outputs)
         return ResNeXtModel
+
+def build(input_shape, nb_classes):
+    return ResNeXt50(input_shape, nb_classes).model
+
+# model = ResNeXt50(input_shape=(224,224,3), nb_classes=1000).model
