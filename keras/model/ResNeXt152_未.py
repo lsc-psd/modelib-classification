@@ -6,7 +6,6 @@ class VGG16:
         self.nb_classes = nb_classes
         self.model = self.make_model(blocks)
 
-    # VGG16の記述
     def make_model(self):
         inputs = Input(self.input_shape)
         x = Conv2D(64, (3,3), activation='relu', padding='same', name='block_conv1')(input)
