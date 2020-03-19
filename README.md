@@ -75,8 +75,9 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 ## Installation
 
-Will update soon
-
+```diff
+! Will update soon
+```
 [comment]: <> (Install via pip:)
 [comment]: <> (```bash)
 [comment]: <> (pip install efficientnet_pytorch)
