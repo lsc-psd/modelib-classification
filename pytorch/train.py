@@ -6,7 +6,7 @@ from pytorch_lightning import Trainer
 from .bin.utils import config_save
 from .bin.model_builder import create_model
 
-os.chdir('./')
+os.chdir('/')
 
 
 def main(args):
