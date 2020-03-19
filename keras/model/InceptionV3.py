@@ -150,7 +150,7 @@ def _InceptionV3_blockH(x):
     return x
 
 
-def InceptionV3(input_shape, nb_classes):
+def build(input_shape, nb_classes):
     inputs = Input(shape=input_shape)
     x = conv2d_bn(inputs, 32, (3,3), (2,2), padding='valid')
     x = conv2d_bn(x, 32, (3,3), padding='valid')
