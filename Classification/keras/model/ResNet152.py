@@ -26,7 +26,7 @@ def res_blocks(x, filter, stride):
     conv = Activation("relu")(short_cut)
     return conv
 
-class ResNet50:
+class ResNet152:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
@@ -40,12 +40,12 @@ class ResNet50:
         x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding="same")(x)
         for i in range(3):
             x = res_blocks(x, 64, 1)
-        for i in range(4):
+        for i in range(8):
             if i == 0:
                 x = res_blocks(x, 128, 2)
             else:
                 x = res_blocks(x, 128, 1)
-        for i in range(6):
+        for i in range(36):
             if i == 0:
                 x = res_blocks(x, 256, 2)
             else:
@@ -61,6 +61,6 @@ class ResNet50:
         return ResNetModel
 
 def build(input_shape, nb_classes):
-    return ResNet50(input_shape, nb_classes).model
+    return ResNet152(input_shape, nb_classes).model
 
-# model = ResNet50(input_shape=(224,224,3), nb_classes=1000).model
+# model = ResNet152(input_shape=(224,224,3), nb_classes=1000).model
