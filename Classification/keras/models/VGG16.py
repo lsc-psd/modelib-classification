@@ -37,6 +37,7 @@ class VGG16:
         return VGGmodel
 
 def build(input_shape, nb_classes):
-    return VGG16(input_shape, nb_classes).model
+    model = VGG16(input_shape, nb_classes).model
+    return model
 
 # model = VGG16(input_shape=(128,128,3), nb_classes=10).model
