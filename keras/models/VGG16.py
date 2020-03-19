@@ -37,11 +37,7 @@ class VGG16:
         return VGGmodel
 
 def build(input_shape, nb_classes):
-<<<<<<< HEAD:keras/model/VGG16.py
-    return VGG16(input_shape, nb_classes).model
-=======
     model = VGG16(input_shape, nb_classes).model
     return model
->>>>>>> 7325b190d678e75b7083c470de43196c5da7f4aa:keras/models/VGG16.py
 
 # model = VGG16(input_shape=(128,128,3), nb_classes=10).model
