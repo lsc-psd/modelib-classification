@@ -25,7 +25,7 @@ class ResNet34:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model(blocks)
+        self.model = self.make_model()
         
     def make_model(self):
         inputs = Input(self.input_shape)
@@ -54,4 +54,7 @@ class ResNet34:
         ResNetModel = Model(inputs=inputs, outputs=outputs)
         return ResNetModel
 
-# model = DenseNetSimple(input_shape=(128,128,3), nb_classes=3).model
+def build(input_shape, nb_classes):
+    return ResNet34(input_shape, nb_classes).model
+
+# model = ResNet34(input_shape=(224,224,3), nb_classes=1000).model

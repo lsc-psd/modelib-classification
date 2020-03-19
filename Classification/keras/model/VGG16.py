@@ -1,13 +1,12 @@
-from keras.layers import Conv2D, MaxPooling2D, Lambda, Input, Dense, Flatten, Dropout
+from keras.layers import Conv2D, MaxPooling2D, Input, Dense, Flatten, Dropout
 from keras.models import Model
 
 class VGG16:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model(blocks)
+        self.model = self.make_model()
 
-    # VGG16の記述
     def make_model(self):
         inputs = Input(self.input_shape)
         x = Conv2D(64, (3,3), activation='relu', padding='same', name='block_conv1')(inputs)
@@ -37,5 +36,7 @@ class VGG16:
         VGGmodel = Model(inputs=inputs, outputs=outputs)
         return VGGmodel
 
+def build(input_shape, nb_classes):
+    return VGG16(input_shape, nb_classes).model
 
-# model = DenseNetSimple(input_shape=(128,128,3), nb_classes=3).model
+# model = VGG16(input_shape=(128,128,3), nb_classes=10).model
