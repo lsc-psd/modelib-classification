@@ -25,7 +25,7 @@ class ResNet18:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.build(blocks)
+        self.build = self.build()
 
     def build(self):
         inputs = Input(self.input_shape)
@@ -45,3 +45,8 @@ class ResNet18:
         outputs = Dense(units=self.nb_classes, activation='softmax')(x)
         ResNetModel = Model(inputs=inputs, outputs=outputs)
         return ResNetModel
+
+def build(input_shape, nb_classes):
+    return ResNet18(input_shape, nb_classes).model
+
+# model = ResNet18(input_shape=(224,224,3), nb_classes=1000).model
