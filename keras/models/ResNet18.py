@@ -25,9 +25,9 @@ class ResNet18:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.build = self.make_model()
+        self.model = self.make_model()
 
-    def build(self):
+    def make_model(self):
         inputs = Input(self.input_shape)
         x = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same", kernel_initializer='he_normal')(inputs)
         x = BatchNormalization()(x)
