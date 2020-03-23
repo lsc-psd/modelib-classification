@@ -1,18 +1,26 @@
 import torch
 import torch.nn as nn
 
+from torch.hub import load_state_dict_from_url
+
 __all__ = ['ResNet50']
+model_url = ''
 
 
 class ResNet50(nn.Module):
-
-    def __init__(self, num_classes=1000, init_weight=True):
+    def __init__(self, num_classes=1000, init_weight=True, pretrain=False):
         super(ResNet50, self).__init__()
 
         self.inplanes = 64
         self.dilation = 1
         self._build(num_classes)
-        if init_weight:
+        # automatically abandon init_weight if pretrain is True
+        if pretrain:
+            assert model_url is not '', f'Pretrained model for {self.__class__.__name__} not prepared yet.'
+            state_dict = load_state_dict_from_url(model_url,
+                                                  progress=True)
+            self.load_state_dict(state_dict)
+        elif init_weight:
             self._init_weights()
 
     def _build(self, num_classes):

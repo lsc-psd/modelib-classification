@@ -1,17 +1,27 @@
 import torch.nn as nn
 import math
 
+from torch.hub import load_state_dict_from_url
+
 __all__ = ['MobileNetV3']
+model_url = ''
 
 
 class MobileNetV3(nn.Module):
-    def __init__(self, num_classes=1000, init_weight=True):
+    def __init__(self, num_classes=1000, init_weight=True, pretrain=True):
         super(MobileNetV3, self).__init__()
         # setting of inverted residual blocks
 
         self._build(num_classes)
-        if init_weight:
-            self._initialize_weights()
+
+        # automatically abandon init_weight if pretrain is True
+        if pretrain:
+            assert model_url is not '', f'Pretrained model for {self.__class__.__name__} not prepared yet.'
+            state_dict = load_state_dict_from_url(model_url,
+                                                  progress=True)
+            self.load_state_dict(state_dict)
+        elif init_weight:
+            self._init_weights()
 
     def _build(self, num_classes):
         l = list()
