@@ -42,7 +42,7 @@ highly extensible, and easy to integrate into your own projects.
     * [Example: Customize in python](#example-customize-in-python)
 5. [Contributing](#contributing)
 6. [LICENSE](#liscence)
- 
+
 ---
 ## About Models
 
@@ -53,22 +53,23 @@ Although most of these models have several types where their layers
  remain code legibility.
 
 ### Model Details
+All Params are calculated with input size=(224, 224, 3) and classes=1000.
 Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 |*Name*| `keras`| `torch` |*# Params*|*Top-1 Acc.*|*Pretrained*|
 |:---:|:--------:|:---:|:---:|:----------:|:-----------:|
-| VGG16|v|v|?|?|x|
-| InceptionV3|v|v|?|?|x|
-| ResNet50 |v|v|?|?|x|
-|DenseNet121|v|v|?|?|x|
+| VGG16|v|v|138,357,544|?|x|
+| InceptionV3|v|v|25,081,224|?|x|
+| ResNet50 |v|v|25,621,352|?|x|
+|DenseNet121|v|v|7,899,430|?|x|
 |Xception|x|v|?|?|x|
-|ResNeXt50|x|v|?|?|x|
-|MobileNetV3|x|v|?|?|x|
+|ResNeXt50|v|v|38,715,196|?|x|
+|MobileNetV3|v|v|4,320,632|?|x|
 
 
 ## Requesties:
 - pytorch v1.4
-
+- keras v2.2.4
 - [pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning) [[doc]](https://pytorch-lightning.readthedocs.io/en/latest/)
 - opencv
 
@@ -78,21 +79,21 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 ```diff
 ! Will update soon
 ```
-[comment]: <> (Install via pip:)
-[comment]: <> (```bash)
-[comment]: <> (pip install efficientnet_pytorch)
-[comment]: <> (```)
-[comment]: <> (Or install from source:)
-[comment]: <> (```bash)
-[comment]: <> (git clone https://github.com/lukemelas/EfficientNet-PyTorch)
-[comment]: <> (cd EfficientNet-Pytorch)
-[comment]: <> (pip install -e .)
-[comment]: <> (``` )
+[comment]: <> "Install via pip:"
+[comment]: <> "```bash"
+[comment]: <> "pip install efficientnet_pytorch"
+[comment]: <> "```"
+[comment]: <> "Or install from source:"
+[comment]: <> "```bash"
+[comment]: <> "git clone https://github.com/lukemelas/EfficientNet-PyTorch"
+[comment]: <> "cd EfficientNet-Pytorch"
+[comment]: <> "pip install -e ."
+[comment]: <> "``` "
 
 
 ## Usage
 
-[comment]: <> (#### Loading pretrained models)
+[comment]: <> "#### Loading pretrained models"
 ### Example: Train from bash
 
 ```bash
@@ -113,4 +114,4 @@ If you find a bug or having any question, create an issue and we'll solve it ASA
 
 ## LISCENCE
 **WTFPL** licensed, just do what the fuck you want to public, cheers.
- 
+
