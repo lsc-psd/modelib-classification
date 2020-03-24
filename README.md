@@ -68,8 +68,11 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 
 ## Requesties:
-- pytorch v1.4
+
+#### Keras:
 - keras v2.2.4
+#### Pytorch:
+- pytorch v1.4
 - [pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning) [[doc]](https://pytorch-lightning.readthedocs.io/en/latest/)
 - opencv
 
@@ -98,7 +101,17 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 ```bash
 python train.py -m VGG16 -f PATH_TO_TRAINDATA
-python test.py -config PATH_TO_CONFIG -ckpt PATH_TO_CHECKPOINT -tag_csv PATH_TO_TAGCSV -f PATH_TO_TESTDATA
+"""
+option: -m : neural network structure
+        -f : path to train data folder, structure showed as below:
+                train_folder
+                ├─ Class1 (e.g. dog)
+                |   ├─ image1.jpg
+                |   └─ image2.jpg
+                └─ Class2 (e.g. cat)
+                    ├─ image1.jpg
+                    └─ image2.jpg
+"""        
 ```
 
 ### Example: Customize in python
