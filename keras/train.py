@@ -71,7 +71,8 @@ def train(read_default):
     Structure = import_module(f'models.{model_name}')
     model = Structure.build(input_shape, n_categories)
     model.compile(optimizer=SGD(lr=0.005), loss='categorical_crossentropy', metrics=['accuracy'])
-    # model.summary()
+    model.summary()
+    return
 
     # コールバック関数の設定
     csv_logger, reduce_lr, checkpointer, early_stop = callbacks(checkpoint_path)
