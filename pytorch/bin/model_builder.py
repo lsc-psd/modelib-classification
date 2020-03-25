@@ -48,8 +48,8 @@ class ClassificationDataset(Dataset):
         return torch.from_numpy(img).permute(2, 0, 1), torch.tensor(label)
 
 
-def create_model(Structure, folder_path, batch_size):
-    class TrainModel(Structure, pl.LightningModule):
+def create_model(structure, train_folder_path, valid_folder_path, batch_size):
+    class TrainModel(structure, pl.LightningModule):
         def training_step(self, batch, batch_idx):
             x, y = batch
             y_hat = self.forward(x)
@@ -57,12 +57,23 @@ def create_model(Structure, folder_path, batch_size):
             tensorboard_logs = {'train_loss': loss}
             return {'loss': loss, 'log': tensorboard_logs}
 
+        def validation_step(self, batch, batch_nb):
+            x, y = batch
+            y_hat = self.forward(x)
+            loss = F.cross_entropy(y_hat, y)
+            return {'val_loss': loss}
+
         def configure_optimizers(self):
             # can return multiple optimizers and learning_rate schedulers
             return optim.Adam(self.parameters(), lr=0.02)
 
         def train_dataloader(self):
-            return DataLoader(ClassificationDataset(folder_path),
+            return DataLoader(ClassificationDataset(train_folder_path),
                               batch_size=batch_size)
+
+        def val_dataloader(self):
+            return DataLoader(ClassificationDataset(valid_folder_path),
+                              batch_size=batch_size)
+
     return TrainModel
 
