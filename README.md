@@ -83,7 +83,7 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 This repo doesn't need any installation so far. Please clone the repo and directly import via LOCAL PATH.
 ```diff
-$ git clone https://github.com/lsc-psd/modelib
+$ git clone https://github.com/lsc-psd/modelib-classification
 ```
 [comment]: <> "Install via pip:"
 [comment]: <> "```bash"
