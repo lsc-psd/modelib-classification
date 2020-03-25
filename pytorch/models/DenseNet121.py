@@ -3,16 +3,28 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 
+from torch.hub import load_state_dict_from_url
+
 __all__ = ["DenseNet121"]
+
+# Pre-trained model was obtained from torch/vision
+model_url = ''
 
 
 class DenseNet121(nn.Module):
     def __init__(self, nClasses, reduction=0.5, growthRate=32,
-                 init_weight=True):
+                 init_weight=True, pretrain=False):
         super(DenseNet121, self).__init__()
 
         self._build(nClasses, reduction, growthRate)
-        if init_weight:
+
+        # automatically abandon init_weight if pretrain is True
+        if pretrain:
+            assert model_url is not '', f'Pretrained model for {self.__class__.__name__} not prepared yet.'
+            state_dict = load_state_dict_from_url(model_url,
+                                                  progress=True)
+            self.load_state_dict(state_dict)
+        elif init_weight:
             self._init_weights()
 
     def _build(self, nClasses, reduction, growthRate):

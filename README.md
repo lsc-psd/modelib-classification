@@ -24,11 +24,13 @@ highly extensible, and easy to integrate into your own projects.
  * Build any of the above models in nn.Module class 
  * Use models for classification or feature extraction 
  * Train/Test models with your in-house data
+ * Evaluate models by validation dataset within training
 
 **_Upcoming features_: In the next few days, you will be able to:**
  * Local installation / pip installation
- * Evaluate models within training
- * Load pre-trained weights for models 
+ 
+**Pre-trained model will update ASAP, we're seeking for proper cloud storage now.**
+ * Load pre-trained weights for models  
  * Finetune models on your own dataset
 
 ---
@@ -79,8 +81,9 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 ## Installation
 
+This repo doesn't need any installation so far. Please clone the repo and directly import via LOCAL PATH.
 ```diff
-! Will update soon
+$ git clone https://github.com/lsc-psd/modelib
 ```
 [comment]: <> "Install via pip:"
 [comment]: <> "```bash"
@@ -102,15 +105,16 @@ Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 ```bash
 python train.py -m VGG16 -f PATH_TO_TRAINDATA
 """
-option: -m : neural network structure
-        -f : path to train data folder, structure showed as below:
-                train_folder
-                ├─ Class1 (e.g. dog)
-                |   ├─ image1.jpg
-                |   └─ image2.jpg
-                └─ Class2 (e.g. cat)
-                    ├─ image1.jpg
-                    └─ image2.jpg
+option: -m :        neural network structure
+        -train :    path to train data folder, structure showed as below:
+                    train_folder
+                    ├─ Class1 (e.g. dog)
+                    |   ├─ image1.jpg
+                    |   └─ image2.jpg
+                    └─ Class2 (e.g. cat)
+                        ├─ image1.jpg
+                        └─ image2.jpg
+        -valid :    path to valid data folder, structure is same with train
 """        
 ```
 

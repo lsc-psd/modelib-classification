@@ -11,18 +11,19 @@ os.chdir('/')
 
 def main(args):
     # equals to from X import X
-    Structure = importlib.import_module(f'models.{args.m}')
-    globals().update({'Structure': getattr(Structure, Structure.__dict__['__all__'][0])})
+    structure = importlib.import_module(f'models.{args.m}')
+    globals().update({'Structure': getattr(structure, structure.__dict__['__all__'][0])})
 
     # use def to create multiple inherited function
-    System = create_model(Structure, args.f, args.b)
-    model = System()
+    system = create_model(structure, args.f, args.b)
+    model = system()
     # most basic trainer, uses good defaults
     trainer = Trainer(gpus=1,
                       default_save_path=f'{args.save}',
                       max_epochs=args.max_epoch)
     trainer.fit(model)
     config_save(args) # save config after finish training
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -2,7 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from torch.hub import load_state_dict_from_url
+
 __all__ = ["Inception3"]
+model_url = ''
 
 
 class Inception3(nn.Module):
@@ -12,7 +15,8 @@ class Inception3(nn.Module):
                  aux_logits=True,
                  transform_input=False,
                  batch_norm=True,
-                 init_weight=True):
+                 init_weight=True,
+                 pretrain=False):
         super(Inception3, self).__init__()
 
         self.aux_logits = aux_logits
@@ -20,8 +24,15 @@ class Inception3(nn.Module):
         self._build(input_channel,
                     num_classes,
                     batch_norm)
-        if init_weight:
-            self._initialize_weights()
+
+        # automatically abandon init_weight if pretrain is True
+        if pretrain:
+            assert model_url is not '', f'Pretrained model for {self.__class__.__name__} not prepared yet.'
+            state_dict = load_state_dict_from_url(model_url,
+                                                  progress=True)
+            self.load_state_dict(state_dict)
+        elif init_weight:
+            self._init_weights()
 
     def _build(self,
                input_channel,

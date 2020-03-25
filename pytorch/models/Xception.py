@@ -2,20 +2,29 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 
+from torch.hub import load_state_dict_from_url
+
 """
 Depse-width separable Conv Intro:
 https://medium.com/@zurister/depth-wise-convolution-and-depth-wise-separable-convolution-37346565d4ec
 """
 
 __all__ = ['Xception']
+model_url = ''
 
 
 class Xception(nn.Module):
-    def __init__(self, num_classes=1000, init_weights=True):
+    def __init__(self, num_classes=1000, init_weights=True, pretrain=False):
         super(Xception, self).__init__()
         self._build(num_classes)
 
-        if init_weights:
+        # automatically abandon init_weight if pretrain is True
+        if pretrain:
+            assert model_url is not '', f'Pretrained model for {self.__class__.__name__} not prepared yet.'
+            state_dict = load_state_dict_from_url(model_url,
+                                                  progress=True)
+            self.load_state_dict(state_dict)
+        elif init_weight:
             self._init_weights()
 
     def _build(self, num_classes):

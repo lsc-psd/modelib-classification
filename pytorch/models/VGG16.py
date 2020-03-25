@@ -1,20 +1,30 @@
 import torch
 import torch.nn as nn
 
+from torch.hub import load_state_dict_from_url
+
 __all__ = ["VGG16"]
+model_url = ''
 
 
 class VGG16(nn.Module):
     def __init__(self,
                  input_channel=3,
                  num_classes=1000,
-                 init_weights=True,
                  batch_norm=False,
-                 dropout=True):
+                 dropout=True,
+                 init_weight=True,
+                 pretrain=False):
         super(VGG16, self).__init__()
         self._build(input_channel, num_classes, batch_norm, dropout)
-        if init_weights:
-            self._initialize_weights()
+        # automatically abandon init_weight if pretrain is True
+        if pretrain:
+            assert model_url is not '', f'Pretrained model for {self.__class__.__name__} not prepared yet.'
+            state_dict = load_state_dict_from_url(model_url,
+                                                  progress=True)
+            self.load_state_dict(state_dict)
+        elif init_weight:
+            self._init_weights()
 
     def forward(self, x):
         x = self.backbone(x)
