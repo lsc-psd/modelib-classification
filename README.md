@@ -58,15 +58,15 @@ Although most of these models have several types where their layers
 All Params are calculated with input size=(224, 224, 3) and classes=1000.
 Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
-|*Name*| `keras`| `torch` |*# Params*|*Top-1 Acc.*|*Pretrained*|
-|:---:|:--------:|:---:|:---:|:----------:|:-----------:|
-| VGG16|v|v|138,357,544|?|x|
-| InceptionV3|v|v|25,081,224|?|x|
-| ResNet50 |v|v|25,621,352|?|x|
-|DenseNet121|v|v|7,899,430|?|x|
-|Xception|x|v|?|?|x|
-|ResNeXt50|v|v|38,715,196|?|x|
-|MobileNetV3|v|v|4,320,632|?|x|
+|*Name*| `keras`| `torch` |*Pretrained*|*# Params*|*Top-1 Acc.*|
+|:---:|:--------:|:---:|---:|------:|:-----------:|
+| VGG16|v|v|x|138,357,544|?|
+| InceptionV3|v|v|x|25,081,224|?|
+| ResNet50 |v|v|x|25,621,352|?|
+|DenseNet121|v|v|x|7,899,430|?|
+|Xception|x|v|x|?|?|x|
+|ResNeXt50|v|v|x|38,715,196|?|
+|MobileNetV3|v|v|x|4,320,632|?|
 
 
 ## Requesties:
