@@ -59,7 +59,7 @@ All Params are calculated with input size=(224, 224, 3) and classes=1000.
 Top-1 Acc. were evaluated by pre-trained model on ImageNet dataset
 
 |*Name*| `keras`| `torch` |*Pretrained*|*# Params*|*Top-1 Acc.*|
-|:---:|:--------:|:---:|---:|------:|:-----------:|
+|:---:|:--------:|:---:|:---:|------:|-----------:|
 | VGG16|v|v|x|138,357,544|?|
 | InceptionV3|v|v|x|25,081,224|?|
 | ResNet50 |v|v|x|25,621,352|?|
