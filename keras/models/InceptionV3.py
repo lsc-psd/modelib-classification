@@ -3,7 +3,6 @@ from keras.layers import AveragePooling2D, GlobalAveragePooling2D, Concatenate, 
 from keras.layers import Input, Conv2D, BatchNormalization, Activation, MaxPooling2D
 from keras.models import Model
 
-
 def conv2d_bn(x, filters, kernel_size, strides=(1,1), padding='same'):
     x = Conv2D(filters,
                kernel_size,
@@ -148,7 +147,6 @@ def _InceptionV3_blockH(x):
 
     x = Concatenate()([block1, block2, block3, block4])
     return x
-
 
 def build(input_shape, nb_classes):
     inputs = Input(shape=input_shape)
