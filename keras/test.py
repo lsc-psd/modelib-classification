@@ -2,6 +2,9 @@ import argparse
 
 
 def main(args):
+    
+    model = System()
+    model = model.load_model()
 
     
     
