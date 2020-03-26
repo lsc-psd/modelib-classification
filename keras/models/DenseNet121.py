@@ -2,12 +2,9 @@ from keras.layers import AveragePooling2D, GlobalAveragePooling2D, Concatenate
 from keras.layers import Input, Conv2D, BatchNormalization, Dense, Dropout
 from keras.models import Model
 
-# 20200311 sample message @kurogi
-# can I do it?
-
 class DenseNetBase:
     def __init__(self, input_shape, nb_classes,
-                 growth_rate=32, compression_factor=0.5, blocks=[6,12,24,16]):
+                 growth_rate=32, compression_factor=0.5, blocks=[6, 12, 24, 16]):
         '''
         :param growth_rate: The number of filters to increase in DenseBlock
         :param compression_factor: The rate that compress in Transition layers.
@@ -43,11 +40,10 @@ class DenseNetBase:
         x = AveragePooling2D((2, 2))(x)
         return x, n_channels
 
-
     def make_model(self, blocks):
-        inputs = Input(shape = self.input_shape)
+        inputs = Input(shape=self.input_shape)
         n = 16
-        x = Conv2D(n, (1,1))(inputs)
+        x = Conv2D(n, (1, 1))(inputs)
         # DenseBlock - TransitionLayer - DenseBlock…
         for i in range(len(blocks)):
             # Transition
@@ -57,8 +53,8 @@ class DenseNetBase:
             x, n = self.dense_block(x, n, blocks[i])
         x = GlobalAveragePooling2D()(x)
         x = Dropout(rate=0.3)(x)
-        dense = Dense(512, activation = "relu")(x)
-        output = Dense(self.nb_classes, activation = 'softmax', name='dense_3')(dense)
+        dense = Dense(512, activation="relu")(x)
+        output = Dense(self.nb_classes, activation='softmax', name='dense_3')(dense)
         # モデル
         densenet_model = Model(inputs=inputs, outputs=output)
         return densenet_model
