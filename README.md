@@ -29,7 +29,7 @@ highly extensible, and easy to integrate into your own projects.
 **_Upcoming features_: In the next few days, you will be able to:**
  * Local installation / pip installation
  
-**Pre-trained model will update ASAP, we're seeking for proper cloud storage now.**
+**Pre-trained model will be readied ASAP, we're seeking for proper cloud storage now.**
  * Load pre-trained weights for models  
  * Finetune models on your own dataset
 
