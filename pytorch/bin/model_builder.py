@@ -1,5 +1,6 @@
 import cv2
 import re
+import os
 
 from torch.utils.data import DataLoader, Dataset
 from torch.nn import functional as F
@@ -48,7 +49,7 @@ class ClassificationDataset(Dataset):
         return torch.from_numpy(img).permute(2, 0, 1), torch.tensor(label)
 
 
-def create_model(structure, train_folder_path, valid_folder_path, batch_size):
+def create_model(structure, train_folder_path, valid_folder_path, batch_size, learning_rate):
     class TrainModel(structure, pl.LightningModule):
         def training_step(self, batch, batch_idx):
             x, y = batch
@@ -65,7 +66,7 @@ def create_model(structure, train_folder_path, valid_folder_path, batch_size):
 
         def configure_optimizers(self):
             # can return multiple optimizers and learning_rate schedulers
-            return optim.Adam(self.parameters(), lr=0.02)
+            return optim.Adam(self.parameters(), lr=learning_rate)
 
         def train_dataloader(self):
             return DataLoader(ClassificationDataset(train_folder_path),
