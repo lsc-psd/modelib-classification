@@ -1,6 +1,7 @@
 import re
 import os
 import argparse
+import configparser
 import importlib
 from pytorch_lightning import Trainer
 
@@ -37,6 +38,10 @@ if __name__ == '__main__':
     parser.add_argument('-save', default='ckpt', type=str, help='folder to save checkpoint')
     parser.add_argument('-max_epoch', default=500, type=int, help='max epoch count')
     args = parser.parse_args()
+
+    config_ini = configparser.ConfigParser()
+    config_ini.read('config.ini', encoding='utf-8')
+    read_default = config_ini['MODELIB']
 
     assert args.m in ['VGG16', 'DenseNet121', 'InceptionV3', 'MobileNetV3', 'ResNet50',
                       'ResNeXt50', 'VGG16', 'Xception'], \
