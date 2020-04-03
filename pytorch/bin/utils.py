@@ -14,12 +14,12 @@ def safe_run(func):
     return func_wrapper
 
 
-def config_save(args):
+def param_save(args):
     with open('./last_config.pickle', 'w') as f:
         pickle.dump(args, f)
 
 
-def config_load(path):
+def param_load(path):
     with open(path, 'r') as f:
         config = pickle.load(f)
     return config
