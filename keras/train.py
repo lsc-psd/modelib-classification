@@ -6,6 +6,7 @@ from keras.callbacks import ModelCheckpoint, CSVLogger, LearningRateScheduler, R
 import os
 import glob
 import configparser
+import argparse
 from importlib import import_module
 
 def generate(train_dir, val_dir, img_height, img_width, batch_size):
@@ -91,8 +92,11 @@ def train(read_default):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', default='config.ini', type=str, help='config file')
+    args = parser.parse_args()
     config_ini = configparser.ConfigParser()
-    config_ini.read('config.ini', encoding='utf-8')
+    config_ini.read(args.c, encoding='utf-8')
     read_default = config_ini['DEFAULT']
 
     train(read_default)
