@@ -6,6 +6,7 @@ from importlib import import_module
 
 import numpy as np
 from PIL import Image
+import argparse
 
 
 def writeResultsInCsv(data_array):
@@ -28,14 +29,14 @@ def test(read_default):
     img_height = int(read_default.get('img_height'))
     img_width = int(read_default.get('img_width'))
     input_shape = (img_height, img_width, 3)
-    n_categories = int(read_default.get('n_categories'))
+    n_categories = len(glob.glob(os.path.join(read_default.get('train_dir') ,"*")))
     model_name = read_default.get('model_name')
     weigh_path = read_default.get('weight_path')
 
     Structure = import_module(f'models.{model_name}')
     model = Structure.build(input_shape, n_categories)
     weight = glob.glob(weigh_path)
-    model.load_weights(weight)
+    #model.load_weights(weight)
 
     image_path = glob.glob(os.path.join(test_path, "*"))
     data = []
@@ -49,7 +50,9 @@ def test(read_default):
     writeResultsInCsv(data)
     
 if __name__ == '__main__':
-
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', default='config.ini', type=str, help='config file')
+    args = parser.parse_args()
     config_ini = configparser.ConfigParser()
     config_ini.read('config.ini', encoding='utf-8')
     read_default = config_ini['DEFAULT']

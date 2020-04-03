@@ -54,7 +54,7 @@ def callbacks(checkpoint_path):
 
 def train(read_default):
     # 各種変数の定義
-    n_categories = len(glob.glob(read_default.get('train_dir')))
+    n_categories = len(glob.glob(os.path.join(read_default.get('train_dir'), "*")))
     train_dir = read_default.get('train_dir')
     val_dir = read_default.get('val_dir')
     checkpoint_path = read_default.get('checkpoint_path')
@@ -63,7 +63,7 @@ def train(read_default):
     input_shape = (img_height, img_width, 3)
     batch_size = int(read_default.get('batch_size'))
     nb_epochs = int(read_default.get('nb_epochs'))
-    learning_rates = read_default.get('learning_rates')
+    learning_rates = float(read_default.get('learning_rates'))
     model_name = read_default.get('model_name')
 
     # 画像増幅
