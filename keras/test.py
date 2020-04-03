@@ -1,10 +1,12 @@
-import os
+import configparser
+import csv
 import glob
+import os
+from importlib import import_module
+
 import numpy as np
 from PIL import Image
-from importlib import import_module
-import csv
-import configparser
+
 
 def writeResultsInCsv(data_array):
 
@@ -28,11 +30,12 @@ def test(read_default):
     input_shape = (img_height, img_width, 3)
     n_categories = int(read_default.get('n_categories'))
     model_name = read_default.get('model_name')
-    weigth_path = read_default.get('weight_path')
+    weigh_path = read_default.get('weight_path')
 
     Structure = import_module(f'models.{model_name}')
     model = Structure.build(input_shape, n_categories)
-    #model.load_weights(weigth_path)
+    weight = glob.glob(weigh_path)
+    model.load_weights(weight)
 
     image_path = glob.glob(os.path.join(test_path, "*"))
     data = []
@@ -43,8 +46,6 @@ def test(read_default):
         name = os.path.basename(path)
         data.append([name, prediction])
         print(str(name) + " : " + str(prediction))
-    import pdb;
-    pdb.set_trace()
     writeResultsInCsv(data)
     
 if __name__ == '__main__':

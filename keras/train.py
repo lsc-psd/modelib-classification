@@ -4,6 +4,7 @@ from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint, CSVLogger, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping
 
 import os
+import glob
 import configparser
 from importlib import import_module
 
@@ -52,7 +53,7 @@ def callbacks(checkpoint_path):
 
 def train(read_default):
     # 各種変数の定義
-    n_categories = int(read_default.get('n_categories'))
+    n_categories = len(glob.glob(read_default.get('train_dir')))
     train_dir = read_default.get('train_dir')
     val_dir = read_default.get('val_dir')
     checkpoint_path = read_default.get('checkpoint_path')
@@ -61,6 +62,7 @@ def train(read_default):
     input_shape = (img_height, img_width, 3)
     batch_size = int(read_default.get('batch_size'))
     nb_epochs = int(read_default.get('nb_epochs'))
+    learning_rates = read_default.get('learning_rates')
     model_name = read_default.get('model_name')
 
     # 画像増幅
@@ -70,7 +72,7 @@ def train(read_default):
     # モデルの読み込みとコンパイル
     Structure = import_module(f'models.{model_name}')
     model = Structure.build(input_shape, n_categories)
-    model.compile(optimizer=SGD(lr=0.005), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=SGD(lr=learning_rates), loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
     return
 
