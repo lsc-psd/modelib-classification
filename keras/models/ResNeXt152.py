@@ -1,6 +1,6 @@
-from keras import backend as K
-from keras.layers import Conv2D, Add, Input, BatchNormalization, Activation, MaxPooling2D, GlobalAveragePooling2D,SeparableConv2D, Dense
+from keras.layers import Conv2D, MaxPooling2D, Input, Add, Dense, BatchNormalization, Activation, SeparableConv2D, GlobalAveragePooling2D
 from keras.models import Model
+from keras import backend as K
 
 def shortcut(conv, residual):
     conv_shape = K.int_shape(conv)
@@ -24,15 +24,15 @@ def block(x,filter,stride=1,cardinality=32):
     return conv
 
 
-class ResNeXt50:
+class ResNeXt152:
     def __init__(self, input_shape, nb_classes):
         self.input_shape = input_shape
         self.nb_classes = nb_classes
-        self.model = self.make_model()
 
     def make_model(self):
         inputs = Input(self.input_shape)
-        x = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same", kernel_initializer='he_normal')(inputs)
+        x = Conv2D(filters=64, kernel_size=(7, 7), strides=(2, 2), padding="same",
+                   kernel_initializer='he_normal')(inputs)
         x = BatchNormalization()(x)
         x = Activation('relu')(x)
         x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding="same")(x)
@@ -45,13 +45,13 @@ class ResNeXt50:
         x = block(x, 128)
         x = block(x, 128)
         x = block(x, 128)
+        x = block(x, 128)
+        x = block(x, 128)
+        x = block(x, 128)
 
         x = block(x, 256, stride=2)
-        x = block(x, 256)
-        x = block(x, 256)
-        x = block(x, 256)
-        x = block(x, 256)
-        x = block(x, 256)
+        for i in range(35):
+            x = block(x, 256)
 
         x = block(x, 512, stride=2)
         x = block(x, 512)
@@ -63,6 +63,6 @@ class ResNeXt50:
         return ResNeXtModel
 
 def build(input_shape, nb_classes):
-    return ResNeXt50(input_shape, nb_classes).model
+    return ResNeXt152(input_shape, nb_classes).model
 
-# model = ResNeXt50(input_shape=(224,224,3), nb_classes=1000).model
+# model = ResNeXt152(input_shape=(224,224,3), nb_classes=1000).model

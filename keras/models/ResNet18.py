@@ -1,25 +1,24 @@
 from keras import backend as K
-from keras.layers import Conv2D,Add,Input,BatchNormalization,Activation,MaxPooling2D,GlobalAveragePooling2D,Dense
+from keras.layers import Conv2D, Add, Input, BatchNormalization, Activation, MaxPooling2D, GlobalAveragePooling2D, Dense
 from keras.models import Model
 
-def shortcut(x, residual):
-    x_shape = K.int_shape(x)
+def shortcut(conv, residual):
+    conv_shape = K.int_shape(conv)
     residual_shape = K.int_shape(residual)
-    if x_shape == residual_shape:
-        shortcut = x
-    else:
-        shortcut = Conv2D(filters=residual_shape[3], kernel_size=(1, 1), strides=(2, 2))(x)
-    return Add()([shortcut, residual])
+    if conv_shape != residual_shape:
+        residual = Conv2D(filters=conv_shape[3], kernel_size=(1, 1), strides=(2, 2))(residual)
+    return Add()([conv, residual])
 
-def base_blocks(x,filter,stride):
+def res_blocks(x,filter,stride=1):
     conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(stride, stride), padding="same", kernel_initializer='he_normal')(x)
     conv = BatchNormalization()(conv)
     conv = Activation("relu")(conv)
     conv = Conv2D(filters=filter, kernel_size=(3, 3), strides=(1, 1), padding="same", kernel_initializer='he_normal')(conv)
     conv = BatchNormalization()(conv)
-    short_cut = shortcut(x, conv)
+    short_cut = shortcut(conv, x)
     conv = Activation("relu")(short_cut)
     return conv
+
 
 class ResNet18:
     def __init__(self, input_shape, nb_classes):
@@ -33,14 +32,19 @@ class ResNet18:
         x = BatchNormalization()(x)
         x = Activation('relu')(x)
         x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding="same")(x)
-        x = base_blocks(x, 64, 1)
-        x = base_blocks(x, 64, 1)
-        x = base_blocks(x, 128, 2)
-        x = base_blocks(x, 128, 1)
-        x = base_blocks(x, 256, 2)
-        x = base_blocks(x, 256, 1)
-        x = base_blocks(x, 512, 2)
-        x = base_blocks(x, 512, 1)
+
+        x = res_blocks(x, 64)
+        x = res_blocks(x, 64)
+
+        x = res_blocks(x, 128, stride=2)
+        x = res_blocks(x, 128)
+
+        x = res_blocks(x, 256, stride=2)
+        x = res_blocks(x, 256)
+
+        x = res_blocks(x, 512, stride=2)
+        x = res_blocks(x, 512)
+        
         x = GlobalAveragePooling2D()(x)
         outputs = Dense(units=self.nb_classes, activation='softmax')(x)
         ResNetModel = Model(inputs=inputs, outputs=outputs)
