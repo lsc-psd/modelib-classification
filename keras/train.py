@@ -75,7 +75,7 @@ def train(read_default):
     model = Structure.build(input_shape, n_categories)
     model.compile(optimizer=SGD(lr=learning_rates), loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
-    return
+
 
     # コールバック関数の設定
     csv_logger, reduce_lr, checkpointer, early_stop = callbacks(checkpoint_path)
@@ -89,7 +89,7 @@ def train(read_default):
                                   verbose=1,
                                   callbacks=[csv_logger, reduce_lr, checkpointer, early_stop]
                                   )
-
+    return
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -97,6 +97,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config_ini = configparser.ConfigParser()
     config_ini.read(args.c, encoding='utf-8')
-    read_default = config_ini['DEFAULT']
+    read_default = config_ini['MODELIB']
 
     train(read_default)

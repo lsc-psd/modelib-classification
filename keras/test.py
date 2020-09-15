@@ -60,7 +60,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', default='config.ini', type=str, help='config file')
     args = parser.parse_args()
-
     config_ini = configparser.ConfigParser()
     config_ini.read(args.c, encoding='utf-8')
     read_default = config_ini['MODELIB']
