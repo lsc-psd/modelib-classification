@@ -54,7 +54,6 @@ def callbacks(checkpoint_path):
 
 def train(read_default):
     # 各種変数の定義
-    print(read_default.get('train_dir'))
     n_categories = len(glob.glob(os.path.join(read_default.get('train_dir'), "*")))
     train_dir = read_default.get('train_dir')
     val_dir = read_default.get('val_dir')
